@@ -24,5 +24,6 @@ jobs:
            command: |
               echo "Deploying to Netlify..."
               dotnet publish -c Release -o ./publish
+              npm install -g netlify-cli
               netlify deploy --prod --dir=./publish --auth $NETLIFY_AUTH_TOKEN
 
