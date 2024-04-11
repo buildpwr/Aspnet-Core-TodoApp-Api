@@ -2,16 +2,17 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:10
+      - image: mcr.microsoft.com/dotnet/sdk:6.0
     steps:
       - checkout
       - run:
-          name: Install dependencies
-          command: npm install
-      - run:
-          name: Build
-          command: npm run build
+          name: Install project dependencies and build
+          command: |
+            dotnet restore
+            dotnet build --configuration Release
       - run:
           name: Deploy to Netlify
           command: |
+            echo "Deploying to Netlify..."
+            dotnet publish -c Release -o ./publish
             curl -X POST -d '{}' $NETLIFY_WEBHOOK_URL
