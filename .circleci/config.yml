@@ -1,0 +1,30 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: mcr.microsoft.com/dotnet/sdk:6.0
+
+    steps:
+      - checkout
+
+      # Build
+      - run:
+          name: Build project
+          command: dotnet build --configuration Release
+
+      # Tests (if applicable)
+      # - run:
+      #     name: Run tests
+      #     command: dotnet test
+
+      # Deployment
+      - deploy:
+          name: Deploy to Netlify
+          command: |
+            echo "Deploying to Netlify..."
+            # Replace the following line with your build and deploy commands
+            # Example:
+            # - dotnet publish -c Release -o ./publish
+            # - npm install -g netlify-cli
+            # - netlify deploy --prod --dir=./publish --auth $NETLIFY_AUTH_TOKEN
