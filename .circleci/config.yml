@@ -12,6 +12,11 @@ jobs:
       - run:
           name: Build project
           command: dotnet build --configuration Release
+      - run:
+          name: Install Node.js and npm
+          command: |
+            curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+            sudo apt-get install -y nodejs
 
       # Tests (if applicable)
       # - run:
