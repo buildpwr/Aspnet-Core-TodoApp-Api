@@ -20,11 +20,11 @@ jobs:
 
       # Deployment
       - deploy:
-          name: Deploy to Netlify
-          command: |
-            echo "Deploying to Netlify..."
-            # Replace the following line with your build and deploy commands
-            # Example:
-            # - dotnet publish -c Release -o ./publish
-            # - npm install -g netlify-cli
-            # - netlify deploy --prod --dir=./publish --auth $NETLIFY_AUTH_TOKEN
+            name: Deploy to Netlify
+            command: |
+              echo "Deploying to Netlify..."
+              dotnet publish -c Release -o ./publish
+              curl -sL https://deb.nodesource.com/setup_14.x | bash -
+              apt-get install -y nodejs
+              npm install -g netlify-cli
+              netlify deploy --prod --dir=./publish --auth $NETLIFY_AUTH_TOKEN
