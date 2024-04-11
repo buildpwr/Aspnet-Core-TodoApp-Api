@@ -8,27 +8,30 @@ jobs:
     steps:
       - checkout
 
-      # Build
-      - run:
-          name: Build project
-          command: dotnet build --configuration Release
+      # Install Node.js and npm with sudo
       - run:
           name: Install Node.js and npm
           command: |
-            curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-            sudo apt-get install -y nodejs
+            sudo apt-get update
+            sudo apt-get install -y nodejs npm
 
-      # Tests (if applicable)
-      # - run:
-      #     name: Run tests
-      #     command: dotnet test
+      # Install Netlify CLI
+      - run:
+          name: Install Netlify CLI
+          command: |
+            sudo npm install -g netlify-cli
 
-      # Deployment
-      - deploy:
-           name: Deploy to Netlify
-           command: |
-              echo "Deploying to Netlify..."
-              dotnet publish -c Release -o ./publish
-              npm install -g netlify-cli
-              netlify deploy --prod --dir=./publish --auth $NETLIFY_AUTH_TOKEN
+      # Install project dependencies and build
+      - run:
+          name: Install project dependencies and build
+          command: |
+            dotnet restore
+            dotnet build --configuration Release
 
+      # Deployment to Netlify
+      - run:
+          name: Deploy to Netlify
+          command: |
+            echo "Deploying to Netlify..."
+            dotnet publish -c Release -o ./publish
+            netlify deploy --prod --dir=./publish --auth $NETLIFY_AUTH_TOKEN
